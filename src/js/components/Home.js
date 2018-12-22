@@ -1,44 +1,50 @@
-import React from "react";
+import React, {Component} from "react";
 import List from "./List";
 import Form from "./Form";
+import {ENDPOINT_CAT} from "../constants/services";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom"; 
 
-const Home = () => (
-  <div>
-    <div class="jumbotron text-center bg-info text-white">
 
-    
-        <h1>OnTime</h1>
-        <p>O dia a dia do mundo em tempo real</p>
-    </div>
-    <div class="text-center">
-      <p>Escolha uma categoria</p>
-      <div class="btn-group">
+class Home extends React.Component{
+
+  state= {};
+
+    componentDidMount(){
+      fetch(`${ENDPOINT_CAT}`).then(res=>res.json()).then((categorias)=>{
+        console.log(categorias);
+        this.setState({categorias})
+      })
+    }
+
+    render (){
+
+
+      if(!this.state.categorias) return null;
+
+      const categorias = this.state.categorias; 
+      return(
+      <div>
+      <div class="jumbotron text-center bg-info text-white">
+  
       
-      <Link key ="1" to={{ pathname: `/lista/1`}}>
-      <button type="button" class="btn btn-warning">Política</button>
-      </Link>
-      <Link key ="1" to={{ pathname: `/lista/1`}}>
-      <button type="button" class="btn btn-warning">Desporto</button>
-      </Link>
-      <Link key ="2" to={{ pathname: `/lista/2`}}>
-      <button type="button" class="btn btn-warning">Tecnologia</button>
-      </Link>
-      <Link key ="3" to={{ pathname: `/lista/3`}}>
-      <button type="button" class="btn btn-warning">Ciências</button>
-      </Link>
-      <Link key ="4" to={{ pathname: `/lista/4`}}>
-      <button type="button" class="btn btn-warning">Política</button>
-      </Link>
-      <Link key ="5" to={{ pathname: `/lista/5`}}>
-      <button type="button" class="btn btn-warning">Economia</button>
-      </Link>
-      <Link key ="6" to={{ pathname: `/lista/6`}}>
-      <button type="button" class="btn btn-warning">Sociedade</button>
-      </Link>
+          <h1>OnTime</h1>
+          <p>O dia a dia do mundo em tempo real</p>
       </div>
-    </div>
+      <div class="text-center">
+        <p>Escolha uma categoria</p>
+        <div class="btn-group">
+        {categorias.map(categoria => (
+                     <Link key ={categoria.id} to={{ pathname: `/lista/${categoria.id}`}}>
+                     <button type="button" class="btn btn-warning">{categoria.tipo}</button>
+                     </Link>
+        ))}
+    
+        </div>
+      </div>
+  
+  </div>)
+    }
+}
 
-</div>
-);
+
 export default Home;

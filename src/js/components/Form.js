@@ -1,7 +1,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {ENDPOINT} from "../constants/services";
+import {ENDPOINT, ENDPOINT_CAT, ENDPOINT_USER} from "../constants/services";
 import { addArticle } from "../actions/index";
 const mapDispatchToProps = dispatch => {
   return {
@@ -20,6 +20,10 @@ class ConnectedForm extends Component {
       autor_id: "",
       categoria_id: ""
     };
+
+   
+
+
     this.handleChange1 = this.handleChange1.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
     this.handleChange3 = this.handleChange3.bind(this);
@@ -118,7 +122,21 @@ class ConnectedForm extends Component {
 
     //fazer pedido aqui
   }
+
+  componentDidMount() {
+    fetch(`${ENDPOINT_CAT}`).then(res=>res.json()).then((categorias)=>{
+        console.log(categorias); 
+
+        fetch(`${ENDPOINT_USER}`).then(res=>res.json()).then((autores)=>{
+          console.log(autores);
+          this.setState({autores,categorias})
+        })
+    })
+  }
+
   render() {
+    if(!this.state.categorias || !this.state.autores) return null;
+
     const { titulo } = this.state.titulo;
     const { data } = this.state.data;
     const { descricao } = this.state.descricao;
@@ -126,7 +144,10 @@ class ConnectedForm extends Component {
     const { categoria_id } = this.state.categoria_id;
     const { autor_id } = this.state.autor_id;
 
-    console.log(this.state);
+    const autores= this.state.autores; 
+    const categorias = this.state.categorias; 
+
+   
     return (
     <div>
 
@@ -139,7 +160,7 @@ class ConnectedForm extends Component {
         <div className="col-md-8 offset-md-1">
           <form onSubmit={this.handleSubmit}>
             <div class="form-group">
-              <label htmlFor="title">Title</label>
+              <label htmlFor="title">Titulo</label>
               <input
                 type="text"
                 className="form-control"
@@ -160,21 +181,21 @@ class ConnectedForm extends Component {
               </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Categoria</label>
+                
                 <select class="form-control" id="exampleFormControlSelect1" value={categoria_id} onChange={this.handleChange6}>
-                <option></option>
-                  <option value='4'>Política</option>
-                  <option value='1'>Desporto</option>
-                  <option value='6'>Sociedade</option>
-                  <option value='5'>Economia</option>
-                  <option value='3'>Ciências</option>
-                  <option value='2'>Tecnologia</option>
-                </select>
+                
+                {categorias.map(categoria => (
+                  <option value={categoria.id}>{categoria.tipo}</option>
+                ))}
+                  
+                  </select>
               </div>
               <div class="form-group">
                 <label for="exampleFormControlSelect2">Autor</label>
                 <select class="form-control" id="exampleFormControlSelect2" value={autor_id} onChange={this.handleChange5}>
-                  <option value='1'>Carolina Ventura</option>
-                  <option value='2'>Gabriel Faria</option>
+                {autores.map(autor => (
+                  <option value={autor.id}>{autor.name}</option>
+                ))}
                 </select>
               </div>
 

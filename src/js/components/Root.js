@@ -6,6 +6,9 @@ import Home from "./Home";
 import Form from "./Form"; 
 import Detalhes from "./Detalhes"; 
 import ArtigosCategoria from "./ArtigosCategoria";
+import User from "./User";
+import Callback from "./Callback";
+import Autor from "./Autor";
 
 
 
@@ -27,7 +30,11 @@ const Root = () => (
         </li>
         
     </ul>
+    <ul className="navbar-nav ml-auto">
 
+        <User/>
+
+        </ul>
     </nav>
        
 
@@ -36,6 +43,8 @@ const Root = () => (
       <Route path="/formulario/" component={Form} />
       <Route path ="/detalhes/:id" component = {Detalhes} />
       <Route path ="/lista/:id" component = {ArtigosCategoria} />
+      <Route path ="/callback" component = {Callback} />
+      <Route path ="/autor/:id" component = {Autor} />
       
           
     </div>

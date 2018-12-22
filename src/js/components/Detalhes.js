@@ -21,7 +21,7 @@ class Detalhes extends React.Component{
             .then((article) => {
                     
                 const user_id = article.autor_id;
-                console.log(article); 
+                 
             
 
                 fetch(`${ENDPOINT_USER}/${user_id}`)
@@ -36,7 +36,7 @@ class Detalhes extends React.Component{
                             console.log(cat); 
 
                             this.setState({
-                                article, user, cat
+                                article, user, cat,
                                     })
 
                             })
@@ -56,29 +56,36 @@ class Detalhes extends React.Component{
            return<div>A carregar</div>     
         }
 
-        const {id, titulo,data,descricao, artigo_img} =this.state.article;
-        const{name} = this.state.user;
+        console.log(this.state.user_id); 
+        console.log(this.state.user); 
+        const {titulo,data,descricao, artigo_img} =this.state.article;
+        const{id, name} = this.state.user;
         const {tipo} = this.state.cat; 
         const url = `http://localhost/tdi/articlesFeed/storage/app/public/${artigo_img}`; 
       
+        const style = {
+            height: 280
+        }
        
 
         return (
            
         <div className="row mt-5">
-        <div className="col-md-8 offset-md-1">
+        <div className="col-md-4 offset-md-1">
             <div className="card">
             <div class="card-header">
                 {tipo} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; {data}
             </div>
-            <img class="card-img-top" height='150px' width='100px'  src = {url}></img>
+            <img class="card-img-top" height='150px' width='100px'  style = {style} src = {url}></img>
             <div className="card-body">
                 <h5 className="card-title">{titulo}</h5>
                 <p className="card-text">{descricao}</p>
-                <a href="#" class="btn btn-primary">Editar</a> &nbsp; 
+               
             </div>
             <div class="card-footer text-muted">
+            <Link to={{ pathname: `/autor/${id}`}}>
                 {name}
+            </Link>
             </div>
             </div>
 

@@ -1,7 +1,6 @@
-import React from "react"; 
-import {withRouter} from "react-router-dom"; 
-import {ENDPOINT_CATEGORIA, ENDPOINT_CAT} from "../constants/services"; 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import { ENDPOINT_CAT, ENDPOINT_CATEGORIA } from "../constants/services";
 
 class ArtigosCategoria extends React.Component{
 
@@ -33,10 +32,11 @@ class ArtigosCategoria extends React.Component{
 
     render (){
         if(!this.state.categoria || !this.state.artigos.data) return null;
+    
+       
         const categoria= this.state.categoria; 
         const artigos= this.state.artigos.data; 
-        console.log('artigos', artigos); 
-        console.log('categoria',categoria); 
+         
         return (
         <div>
             <div className="row mt-5">
